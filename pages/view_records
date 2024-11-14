@@ -1,0 +1,288 @@
+import 'dart:io';
+
+import 'package:flutter/material.dart';
+import '../components/cards.dart';
+import '../services/directory_retriever.dart';
+
+class ViewRecords extends StatefulWidget {
+  const ViewRecords({super.key});
+
+  @override
+  State<ViewRecords> createState() => _ViewRecordsState();
+}
+
+class _ViewRecordsState extends State<ViewRecords> {
+  DirectoryRetriever dR = DirectoryRetriever();
+  List<String>ppL = [];
+
+  loadFiles() async{
+    List<FileSystemEntity> ppLR = await dR.fileList();
+
+    for(int i = 0; i < ppL.length; i++){
+      ppL.add(ppLR[i].toString());
+    }
+  }
+
+   @override
+   initState() {
+     super.initState();
+    loadFiles();
+   }
+
+     @override
+  Widget build(BuildContext context){
+     if (ppL.isEmpty) {
+       return Scaffold(
+         appBar: AppBar(
+           title: const Text('Work Hour Tracker'),
+           centerTitle: true,
+           backgroundColor: Colors.amber[400],
+           elevation: 15,
+           shadowColor: Colors.black,
+           toolbarHeight: 56,
+           toolbarOpacity: 0.5,
+         ),
+         drawer: Drawer(
+           backgroundColor: Colors.cyanAccent,
+           child: ListView(
+             padding: EdgeInsets.zero,
+             children: [
+               DrawerHeader(
+                 decoration: BoxDecoration(
+                   color: Colors.amber[600],
+                 ),
+                 child: Row(
+                   mainAxisAlignment: MainAxisAlignment.start,
+                   crossAxisAlignment: CrossAxisAlignment.end,
+                   children: [
+                     Image.asset(
+                       'lib/assets/app_logo.png',
+                       height: 70,
+                       width: 70,
+                     ),
+                     Container(
+                       padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
+                       child: const Text(
+                         'Navigation',
+                         style: TextStyle(
+                           fontSize: 30,
+                         ),
+                       ),
+                     ),
+                   ],
+                 ),
+               ),
+               ListTile(
+                   title: const Text('Create a new Pay Period',
+                     style: TextStyle(
+                       fontSize: 20,
+                     ),
+                   ),
+                   onTap: () {
+                     Navigator.pushNamed(context, '/addPayperiod');
+                   }
+               ),
+               ListTile(
+                   title: const Text('Main Menu',
+                     style: TextStyle(
+                       fontSize: 20,
+                     ),
+                   ),
+                   onTap: () {
+                     Navigator.pushNamed(context, '/HomeMenu');
+                   }
+               ),
+             ],
+           ),
+         ),
+         body: Container(
+           decoration: const BoxDecoration(
+             image: DecorationImage(
+               image: AssetImage('lib/assets/app_background.png'),
+               fit: BoxFit.fill,
+             ),
+           ),
+           child: Padding(
+             padding: const EdgeInsets.all(8.0),
+             child: Column(
+               mainAxisAlignment: MainAxisAlignment.start,
+               crossAxisAlignment: CrossAxisAlignment.center,
+               children: <Widget>[
+                 Center(
+                   child: Stack(
+                     children: [
+                       Text(
+                         'Select a Pay Period to view:',
+                         style: TextStyle(
+                           fontSize: 20,
+                           letterSpacing: 2,
+                           fontWeight: FontWeight.bold,
+                           foreground: Paint()
+                             ..style = PaintingStyle.stroke
+                             ..strokeWidth = 4
+                             ..color = Colors.amber,
+                         ),
+                       ),
+                       const Text(
+                         'Select a Pay Period to View:',
+                         style: TextStyle(
+                           fontSize: 20,
+                           letterSpacing: 2,
+                           fontWeight: FontWeight.bold,
+                           color: Colors.black,
+                         ),
+                       ),
+                     ],
+                   ),
+                 ),
+                 Padding(
+                   padding: const EdgeInsets.fromLTRB(8, 150, 8, 20),
+                   child: Center(
+                     child: Stack(
+                       children: [
+                         Text(
+                           'There are currently no saved Pay Periods. Would you like to'
+                               ' create one?',
+                           style: TextStyle(
+                             fontSize: 20,
+                             letterSpacing: 2,
+                             fontWeight: FontWeight.bold,
+                             foreground: Paint()
+                               ..style = PaintingStyle.stroke
+                               ..strokeWidth = 4
+                               ..color = Colors.amber,
+                           ),
+                         ),
+                         const Text(
+                           'There are currently no saved Pay Periods. Would you like to'
+                               ' create one?',
+                           style: TextStyle(
+                             fontSize: 20,
+                             letterSpacing: 2,
+                             fontWeight: FontWeight.bold,
+                             color: Colors.black,
+                           ),
+                         ),
+                       ],
+                     ),
+                   ),
+                 ),
+                 Padding(
+                   padding: const EdgeInsets.all(8.0),
+                   child: Center(
+                     child: ElevatedButton(
+                       onPressed: () {
+                         Navigator.pushNamed(context, '/addPayperiod');
+                       },
+                       style: ElevatedButton.styleFrom(
+                         backgroundColor: Colors.amber[400],
+                         foregroundColor: Colors.black,
+                         disabledBackgroundColor: Colors.amber[700],
+                         disabledForegroundColor: Colors.black,
+                         textStyle: const TextStyle(
+                           fontSize: 30,
+                         ),
+                       ),
+                       child: const Text('Yes'),
+                     ),
+                   ),
+                 ),
+                 Padding(
+                   padding: const EdgeInsets.all(8.0),
+                   child: Center(
+                     child: ElevatedButton(
+                       onPressed: () {
+                         Navigator.pushNamed(context, '/HomeMenu');
+                       },
+                       style: ElevatedButton.styleFrom(
+                         backgroundColor: Colors.amber[400],
+                         foregroundColor: Colors.black,
+                         disabledBackgroundColor: Colors.amber[700],
+                         disabledForegroundColor: Colors.black,
+                         textStyle: const TextStyle(
+                           fontSize: 30,
+                         ),
+                       ),
+                       child: const Text('No'),
+                     ),
+                   ),
+                 ),
+               ],
+             ),
+           ),
+         ),
+       );
+     } else {
+
+       return Scaffold(
+         appBar: AppBar(
+           title: const Text('Work Hour Tracker'),
+           centerTitle: true,
+           backgroundColor: Colors.amber[400],
+           elevation: 15,
+           shadowColor: Colors.black,
+           toolbarHeight: 56,
+           toolbarOpacity: 0.5,
+         ),
+         drawer: Drawer(
+           backgroundColor: Colors.cyanAccent,
+           child: ListView(
+             padding: EdgeInsets.zero,
+             children: [
+               DrawerHeader(
+                 decoration: BoxDecoration(
+                   color: Colors.amber[600],
+                 ),
+                 child: Row(
+                   mainAxisAlignment: MainAxisAlignment.start,
+                   crossAxisAlignment: CrossAxisAlignment.end,
+                   children: [
+                     Image.asset(
+                       'lib/assets/app_logo.png',
+                       height: 70,
+                       width: 70,
+                     ),
+                     Container(
+                       padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
+                       child: const Text(
+                         'Navigation',
+                         style: TextStyle(
+                           fontSize: 30,
+                         ),
+                       ),
+                     ),
+                   ],
+                 ),
+               ),
+               ListTile(
+                   title: const Text('Create a new Pay Period',
+                     style: TextStyle(
+                       fontSize: 20,
+                     ),
+                   ),
+                   onTap: () {
+                     Navigator.pushNamed(context, '/addPayperiod');
+                   }
+               ),
+               ListTile(
+                   title: const Text('Main Menu',
+                     style: TextStyle(
+                       fontSize: 20,
+                     ),
+                   ),
+                   onTap: () {
+                     Navigator.pushNamed(context, '/HomeMenu');
+                   }
+               ),
+             ],
+           ),
+         ),
+         body: Column(
+           children:   ppL.map((payPeriod) => DCard(
+               payPeriod: payPeriod,
+           )).toList(),
+         ),
+       );
+     }
+   }
+}
