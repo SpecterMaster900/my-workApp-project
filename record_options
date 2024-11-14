@@ -1,0 +1,242 @@
+class RecordOptionsState extends State<RecordOptions>{
+
+  late Map screen = ModalRoute.of(context)!.settings.arguments as Map;
+  late String ppText = screen['payPeriod'];
+
+  upDateRecord() async {
+     DataManager dm = DataManager(textFile: ppText);
+
+     //read from file
+     List<String> rData = await dm.readFile();
+
+     // check if contents are stored in array. if not display a message
+
+     if(rData[0] == 'error...cant read file'){
+               if(!mounted) return;
+          showDialog(
+              context: context,
+            builder: (BuildContext context){
+                return AlertDialog(
+                  title: const Text('Error'),
+                  content: const Text('Cant read file!!'),
+                  actions: [
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      }, child: const Text('close'),
+                    ),
+                  ],
+                );
+            },
+          );
+     } else{
+       //separate each line into sub lines
+       List<String> day1 = rData[0].split(' ');
+       List<String> day2 = rData[1].split(' ');
+       List<String> day3 = rData[2].split(' ');
+       List<String> day4 = rData[3].split(' ');
+       List<String> day5 = rData[4].split(' ');
+       List<String> day6 = rData[5].split(' ');
+       List<String> day7 = rData[6].split(' ');
+       List<String> day8 = rData[7].split(' ');
+       List<String> day9 = rData[8].split(' ');
+       List<String> day10 = rData[9].split(' ');
+       List<String> day11 = rData[10].split(' ');
+       List<String> day12 = rData[11].split(' ');
+       List<String> day13 = rData[12].split(' ');
+       List<String> day14 = rData[13].split(' ');
+
+       // send data to form Page
+       navigatorKey.currentState?.pushNamed('/form',
+           arguments: {
+             '0-0': day1[0],
+             '0-1': day1[1],
+             '0-2': day1[2],
+             '0-3': day1[3],
+             '1-0': day2[0],
+             '1-1': day2[1],
+             '1-2': day2[2],
+             '1-3': day2[3],
+             '2-0': day3[0],
+             '2-1': day3[1],
+             '2-2': day3[2],
+             '2-3': day3[3],
+             '3-0': day4[0],
+             '3-1': day4[1],
+             '3-2': day4[2],
+             '3-3': day4[3],
+             '4-0': day5[0],
+             '4-1': day5[1],
+             '4-2': day5[2],
+             '4-3': day5[3],
+             '5-0': day6[0],
+             '5-1': day6[1],
+             '5-2': day6[2],
+             '5-3': day6[3],
+             '6-0': day7[0],
+             '6-1': day7[1],
+             '6-2': day7[2],
+             '6-3': day7[3],
+             '7-0': day8[0],
+             '7-1': day8[1],
+             '7-2': day8[2],
+             '7-3': day8[3],
+             '8-0': day9[0],
+             '8-1': day9[1],
+             '8-2': day9[2],
+             '8-3': day9[3],
+             '9-0': day10[0],
+             '9-1': day10[1],
+             '9-2': day10[2],
+             '9-3': day10[3],
+             '10-0': day11[0],
+             '10-1': day11[1],
+             '10-2': day11[2],
+             '10-3': day11[3],
+             '11-0':  day12[0],
+             '11-1':  day12[1],
+             '11-2':  day12[2],
+             '11-3':  day12[3],
+             '12-0':  day13[0],
+             '12-1':  day13[1],
+             '12-2':  day13[2],
+             '12-3':  day13[3],
+             '13-0':  day14[0],
+             '13-1':  day14[1],
+             '13-2':  day14[2],
+             '13-3':  day14[3],
+             'payPeriod': ppText
+           });
+     }
+
+
+  }
+  void goHome(){
+    Navigator.of(context).pushNamedAndRemoveUntil('/HomeMenu',
+          (Route<dynamic> route) => false,);
+  }
+
+  @override
+  Widget build(BuildContext context){
+    if(screen['sc'] == "1"){
+      return Scaffold(
+        body: Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('lib/assets/app_background.png'),
+              fit: BoxFit.fill,
+            ),
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              Container(
+                padding: const EdgeInsets.fromLTRB(30.0,0.0,30.0,0.0),
+                color: Colors.black87,
+                child: Text(
+                  'Pay Period: $ppText Created.  Would you like to add hours to it?',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.amber[600],
+                  ),
+                ),
+              ),
+              Container(
+                padding: const EdgeInsets.fromLTRB(30.0,0.0,30.0,0.0),
+                child: ElevatedButton(
+                  onPressed: (){
+                   upDateRecord();
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.amber[400],
+                    foregroundColor: Colors.black,
+                    textStyle: const TextStyle(
+                      fontSize: 20,
+                    ),
+                  ), child: const Text('Yes'),
+                ),
+              ),
+              Container(
+                padding: const EdgeInsets.fromLTRB(30.0,0.0,30.0,0.0),
+                child: ElevatedButton(
+                  onPressed: (){
+                    goHome();
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.amber[400],
+                    foregroundColor: Colors.black,
+                    textStyle: const TextStyle(
+                      fontSize: 20,
+                    ),
+                  ), child: const Text('No'),
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    }else{
+      return Scaffold(
+        body: Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('lib/assets/app_background.png'),
+              fit: BoxFit.fill,
+            ),
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              Container(
+                padding: const EdgeInsets.fromLTRB(30.0,0.0,30.0,0.0),
+                color: Colors.black87,
+                child: Text(
+                  'Hours added.  Would you like to add more hours?',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.amber[600],
+                  ),
+                ),
+              ),
+              Container(
+                padding: const EdgeInsets.fromLTRB(30.0,0.0,30.0,0.0),
+                child: ElevatedButton(
+                  onPressed: (){
+                    upDateRecord();
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.amber[400],
+                    foregroundColor: Colors.black,
+                    textStyle: const TextStyle(
+                      fontSize: 20,
+                    ),
+                  ), child: const Text('Yes'),
+                ),
+              ),
+              Container(
+                padding: const EdgeInsets.fromLTRB(30.0,0.0,30.0,0.0),
+                child: ElevatedButton(
+                  onPressed: (){
+                    goHome();
+                  },
+
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.amber[400],
+                    foregroundColor: Colors.black,
+                    textStyle: const TextStyle(
+                      fontSize: 20,
+                    ),
+                  ), child: const Text('No'),
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+  }
+}
