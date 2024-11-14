@@ -1,0 +1,23 @@
+import 'package:flutter/material.dart';
+import 'package:work_hour_tracker/pages/add_payperiod.dart';
+import 'package:work_hour_tracker/pages/display_page.dart';
+import 'package:work_hour_tracker/pages/home_menu.dart';
+import 'package:work_hour_tracker/pages/record_options.dart';
+import 'package:work_hour_tracker/pages/view_records.dart';
+import 'package:work_hour_tracker/pages/form_page.dart';
+
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
+void main() =>
+  runApp(MaterialApp(
+      navigatorKey: navigatorKey,
+    initialRoute: '/HomeMenu',
+    routes:{
+    '/HomeMenu': (context) => const HomeMenu(),
+      '/recordOptions': (context) => const RecordOptions(),
+      '/addPayperiod': (context) => const AddPayPeriod(),
+      '/viewRecords': (context) => const ViewRecords(),
+      '/form': (context) => const InputForm(),
+      '/displayPage': (context) => const DisplayPage()
+  }
+  ));
